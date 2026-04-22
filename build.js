@@ -1,6 +1,7 @@
 const fs = require('fs');
+const path = require('path');
 const XLSX = require('xlsx');
-
+const mammoth = require('mammoth');
 try {
   const workbook = XLSX.readFile('LINE_Bot_內容對照表.xlsx');
   const sheetName = workbook.SheetNames.find(n => n.includes('內容對照表')) || workbook.SheetNames[1] || workbook.SheetNames[0];
@@ -160,6 +161,39 @@ ${Object.values(menusMap).join(',\n')}
   fs.writeFileSync('menus.js', menusContent, 'utf-8');
 
   console.log("✅ 三點零終極轉換成功！已經完全跟 Excel 脫鉤硬寫法，現在首頁也會跟著您的 Excel 動態變化！");
+
+  // --- 新增：Vercel 加速模組 (預編譯知識庫) ---
+  console.log("📚 正在預先編譯知識庫以加速 Serverless 回應時間...");
+  const kbDir = path.join(__dirname, 'knowledge');
+  if (fs.existsSync(kbDir)) {
+    const files = fs.readdirSync(kbDir).filter(file => file.endsWith('.docx') || file.endsWith('.txt'));
+    let combinedText = "";
+    
+    // 使用 Promise.all 平行處理，極大化轉檔速度
+    const extractPromises = files.map(async (file) => {
+      const filePath = path.join(kbDir, file);
+      try {
+        if (file.endsWith('.docx')) {
+          const result = await mammoth.extractRawText({ path: filePath });
+          return `\n--- 文件：${file} ---\n${result.value}\n`;
+        } else if (file.endsWith('.txt')) {
+          const text = fs.readFileSync(filePath, 'utf-8');
+          return `\n--- 文件：${file} ---\n${text}\n`;
+        }
+      } catch (err) {
+        console.error(`解析失敗 ${file}:`, err.message);
+        return "";
+      }
+    });
+
+    Promise.all(extractPromises).then(results => {
+      combinedText = results.join('');
+      fs.writeFileSync('compiled_kb.txt', combinedText, 'utf-8');
+      console.log(`✅ 知識庫編譯完成！共整合了 ${files.length} 份文件，準備交付 Vercel！`);
+    }).catch(err => {
+      console.error("知識庫編譯過程發生錯誤:", err);
+    });
+  }
 
 } catch (err) {
   console.error("❌ 轉換失敗：", err);

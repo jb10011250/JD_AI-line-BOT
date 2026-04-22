@@ -21,29 +21,17 @@ let cachedKnowledge = null;
 async function loadKnowledgeBase() {
   if (cachedKnowledge) return cachedKnowledge;
 
-  // 在 Vercel 或 Render 環境中，process.cwd() 會指向專案根目錄
-  const kbDir = path.join(process.cwd(), 'knowledge');
-  if (!fs.existsSync(kbDir)) {
-    console.warn(`⚠️ 找不到 knowledge 目錄 (路徑: ${kbDir})，AI 將進入通用諮詢模式。`);
-    return "";
+  // Vercel 終極加速：直接讀取在本地預先編譯打包好的純文字
+  const compiledPath = path.join(process.cwd(), 'compiled_kb.txt');
+  
+  if (fs.existsSync(compiledPath)) {
+    cachedKnowledge = fs.readFileSync(compiledPath, 'utf-8');
+    console.log(`[AI服務] 已極速載入預編譯知識庫 (耗時 < 1ms)`);
+    return cachedKnowledge;
   }
 
-  const files = fs.readdirSync(kbDir).filter(f => f.endsWith('.docx'));
-  let fullText = "";
-
-  console.log(`[AI服務] 正在載入官方知識庫 (${files.length} 份文件)...`);
-
-  for (const file of files) {
-    try {
-      const result = await mammoth.extractRawText({ path: path.join(kbDir, file) });
-      fullText += `\n\n【文件名稱：${file}】\n` + "─".repeat(20) + "\n" + result.value;
-    } catch (err) {
-      console.error(`[AI服務] 無法讀取核心文件 ${file}:`, err.message);
-    }
-  }
-
-  cachedKnowledge = fullText;
-  return fullText;
+  console.warn(`⚠️ 找不到預編譯知識庫 (compiled_kb.txt)，AI 將進入無知識庫通用模式。`);
+  return "";
 }
 
 /**
