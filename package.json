@@ -1,0 +1,18 @@
+{
+  "name": "linebot-xhu",
+  "version": "1.0.0",
+  "description": "新湖地政 LINE Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@line/bot-sdk": "^9.0.0",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "mammoth": "^1.7.2",
+    "xlsx": "^0.18.5"
+  }
+}
