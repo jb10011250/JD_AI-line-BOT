@@ -36,9 +36,9 @@ app.get('/', (req, res) => {
 function personalizeMessages(messages, userName) {
   return messages.map(msg => {
     if (msg.type === 'text') {
-      return { 
-        ...msg, 
-        text: msg.text.replace(/阿吸|\{Name\}/g, userName) 
+      return {
+        ...msg,
+        text: msg.text.replace(/阿吸|\{Name\}/g, userName)
       };
     }
     return msg;
@@ -76,8 +76,8 @@ async function handleEvent(event) {
   if (text.includes('AI助理') || text.includes('AI 助理') || text.includes('智能助理')) {
     userStates[userId] = 'AI_MODE';
     const welcomeMsg = [
-      { type: 'text', text: `您好 ${userName}！我是「地政 8888」專業 AI 客服。` },
-      { type: 'text', text: `我已準備好為您解答地政問題。\n\n若要結束，請輸入「退出」。` }
+      { type: 'text', text: `您好 ${userName}！我是「新湖地政 AI助理」。` },
+      { type: 'text', text: `我已準備好為您解答地政問題(目前僅測量試用版)。\n\n若要結束，請輸入「退出」。` }
     ];
     return client.replyMessage(replyToken, welcomeMsg);
   }
