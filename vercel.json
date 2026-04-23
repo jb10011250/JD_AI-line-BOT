@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/public/(.*)\\.v\\d+\\.(png|jpg|jpeg|gif|svg)",
-      "destination": "/public/$1.$2"
-    }
-  ],
   "functions": {
     "api/index.js": {
       "memory": 1024,

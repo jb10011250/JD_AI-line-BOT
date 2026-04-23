@@ -1,5 +1,6 @@
 const express = require('express');
 const line = require('@line/bot-sdk');
+const path = require('path');
 const { keywordMap } = require('../keywords');
 const { getReply } = require('../menus');
 const aiService = require('../ai_service');
@@ -12,7 +13,24 @@ const config = {
 };
 
 const client = new line.Client(config);
-const userStates = {}; // 記憶體狀態在 Serverless 環境下僅能維持極短時間
+const userStates = {};
+
+// ✅ 智慧快取清除：將 /public/xxx.v123.jpg 轉回 /public/xxx.jpg 讀取實體檔案
+// 這是為了讓 LINE 能強制更新圖片快取，同時 Vercel 仍能找到正確圖檔
+app.use('/public', (req, res, next) => {
+  if (req.url.match(/\.v\d+\./)) {
+    req.url = req.url.replace(/\.v\d+\./, '.');
+  }
+  next();
+});
+
+// ✅ 提供 public 資料夾內的靜態圖片
+app.use('/public', express.static(path.join(process.cwd(), 'public')));
+
+// 健康檢查頁（讓瀏覽器開啟不報 404）
+app.get('/', (req, res) => {
+  res.send('<h2>新湖地政 AI 助理 (Vercel 閃電版) 運作中！</h2>');
+});
 
 // 個人化稱呼處理函式
 function personalizeMessages(messages, userName) {
@@ -67,7 +85,6 @@ async function handleEvent(event) {
   // --- AI 模式處理 ---
   if (userStates[userId] === 'AI_MODE') {
     try {
-      // 在 Vercel 10 秒限制下，我們直接請求 AI 並回覆
       const aiAnswer = await aiService.getAIResponse(text, userName);
       const reply = personalizeMessages([{ type: 'text', text: aiAnswer }], userName);
       return client.replyMessage(replyToken, reply);
@@ -82,7 +99,7 @@ async function handleEvent(event) {
   return client.replyMessage(replyToken, personalizeMessages(messages, userName));
 }
 
-// Vercel 專用路徑設定
+// Webhook 接收端點
 app.post('/api', line.middleware(config), async (req, res) => {
   try {
     await Promise.all(req.body.events.map(handleEvent));
@@ -93,5 +110,4 @@ app.post('/api', line.middleware(config), async (req, res) => {
   }
 });
 
-// 為了相容 Vercel 的 Serverless Functions，必須導出 app
 module.exports = app;
