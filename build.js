@@ -2,199 +2,186 @@ const fs = require('fs');
 const path = require('path');
 const XLSX = require('xlsx');
 const mammoth = require('mammoth');
-try {
-  const workbook = XLSX.readFile('LINE_Bot_內容對照表.xlsx');
-  const sheetName = workbook.SheetNames.find(n => n.includes('內容對照表')) || workbook.SheetNames[1] || workbook.SheetNames[0];
-  const worksheet = workbook.Sheets[sheetName];
-  const rows = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
-  let keywordMap = {};
-  let menusMap = {};
-  
-  let groupMap = { 'A': [], 'B': [], 'C': [], 'D': [], 'E': [], 'F': [] };
-  let mainGridItems = []; // 給首頁六宮格用的
-  
-  // 建立這一次更新的時間戳記，用於強制 LINE 刷新圖片快取
-  const versionStamp = Date.now();
+async function main() {
+  try {
+    const workbook = XLSX.readFile('LINE_Bot_內容對照表.xlsx');
+    const sheetName = workbook.SheetNames.find(n => n.includes('內容對照表')) || workbook.SheetNames[1] || workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
-  function escapeText(str) {
-    if (!str) return '';
-    return String(str).replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
-  }
+    let keywordMap = {};
+    let menusMap = {};
+    let groupMap = { 'A': [], 'B': [], 'C': [], 'D': [], 'E': [], 'F': [] };
+    let mainGridItems = [];
+    const versionStamp = Date.now();
 
-  function buildImageUrlSnippet(fileName) {
-    let p = fileName.trim();
-    if (p.startsWith('http://') || p.startsWith('https://')) {
-      return `\`${escapeText(p)}\``;
-    }
-    
-    // 取得副檔名與主檔名
-    const parts = p.split('.');
-    if (parts.length > 1) {
-      const ext = parts.pop();
-      const name = parts.join('.');
-      // 產出如 logo.v171356.png 的格式，並在這邊為中文檔名進行標準網址編碼（encodeURI）
-      // 因為 LINE 傳統圖片訊息非常嚴格，不允許網址中出現未編碼的中文字或空白！
-      const encodedName = encodeURI(name);
-      return `\`\${BASE_URL}/public/${escapeText(encodedName)}.v${versionStamp}.${ext}\``;
-    }
-    return `\`\${BASE_URL}/public/${escapeText(encodeURI(p))}\``;
-  }
-
-  // 處理縮圖的小助手
-  function getBustedThumbnail(fileName) {
-    let p = String(fileName || '').trim();
-    if (!p) return '';
-    if (p.startsWith('http://') || p.startsWith('https://')) return p;
-    
-    const parts = p.split('.');
-    if (parts.length > 1) {
-      const ext = parts.pop();
-      const name = parts.join('.');
-      return `${name}.v${versionStamp}.${ext}`;
-    }
-    return p;
-  }
-
-  rows.forEach(row => {
-    const code = String(row['代碼'] || '').trim();
-    const keyword = String(row['關鍵字（Key）'] || '').trim();
-    const label = String(row['功能說明（顯示文字）'] || '').trim();
-    const rawThumbnail = String(row['選單縮圖'] || '').trim();
-    const thumbnail = getBustedThumbnail(rawThumbnail);
-    
-    const w1 = row['回應文字1（W1）'];
-    const p1 = row['回應圖片1（P1）'];
-    const w2 = row['回應文字2（W2）'];
-    const p2 = row['回應圖片2（P2）'];
-
-    if (!code || code.includes('Rich Menu') || code.startsWith('【')) return;
-
-    if (keyword && keyword !== '（非關鍵字觸發）') {
-      keywordMap[keyword] = code;
+    function escapeText(str) {
+      if (!str) return '';
+      return String(str).replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
     }
 
-    // 收集首頁六宮格的材料
-    if (['A0', 'B0', 'C0', 'D0', 'E0', 'F0'].includes(code)) {
-      if (keyword) {
-        mainGridItems.push({ code, label, keyword, thumbnail });
+    function buildImageUrlSnippet(fileName) {
+      let p = String(fileName || '').trim();
+      if (!p) return "''";
+      if (p.startsWith('http')) return `\`${escapeText(p)}\``;
+      const parts = p.split('.');
+      if (parts.length > 1) {
+        const ext = parts.pop();
+        const name = parts.join('.');
+        return `\`\${BASE_URL}/public/${encodeURI(name)}.v${versionStamp}.${ext}\``;
       }
+      return `\`\${BASE_URL}/public/${encodeURI(p)}\``;
     }
 
-    // 收集子輪播圖的材料
-    if (keyword) {
-      if (code !== 'A0' && code.startsWith('A')) groupMap['A'].push({ code, label, keyword, thumbnail });
-      if (code !== 'B0' && code.startsWith('B')) groupMap['B'].push({ code, label, keyword, thumbnail });
-      if (code !== 'C0' && code.startsWith('C')) groupMap['C'].push({ code, label, keyword, thumbnail });
-      if (code !== 'D0' && code.startsWith('D')) groupMap['D'].push({ code, label, keyword, thumbnail });
-      if (code !== 'E0' && code.startsWith('E')) groupMap['E'].push({ code, label, keyword, thumbnail });
-      if (code !== 'F0' && code.startsWith('F')) groupMap['F'].push({ code, label, keyword, thumbnail });
+    function getBustedThumbnail(fileName) {
+      let p = String(fileName || '').trim();
+      if (!p || p.startsWith('http')) return p;
+      const parts = p.split('.');
+      if (parts.length > 1) {
+        const ext = parts.pop();
+        const name = parts.join('.');
+        return `${name}.v${versionStamp}.${ext}`;
+      }
+      return p;
     }
 
-    if (['NKW', 'NKW-1', 'NKW-2', 'NKW-3', 'A0', 'B0', 'C0', 'D0', 'E0', 'F0'].includes(code)) return;
+    rows.forEach(row => {
+      const code = String(row['代碼'] || '').trim();
+      const keyword = String(row['關鍵字（Key）'] || '').trim();
+      const label = String(row['功能說明（顯示文字）'] || '').trim();
+      const thumbnail = getBustedThumbnail(row['選單縮圖']);
 
-    let messages = [];
-    if (w1) messages.push(`{ type: 'text', text: \`${escapeText(w1)}\` }`);
-    if (w2) messages.push(`{ type: 'text', text: \`${escapeText(w2)}\` }`);
-    if (p1) messages.push(`{ type: 'image', originalContentUrl: ${buildImageUrlSnippet(p1, true)}, previewImageUrl: ${buildImageUrlSnippet(p1, true)} }`);
-    if (p2) messages.push(`{ type: 'image', originalContentUrl: ${buildImageUrlSnippet(p2, true)}, previewImageUrl: ${buildImageUrlSnippet(p2, true)} }`);
+      if (!code || code.includes('Rich Menu') || code.startsWith('【')) return;
+      if (keyword && keyword !== '（非關鍵字觸發）') keywordMap[keyword] = code;
 
-    if (messages.length > 0) {
-      menusMap[code] = `    '${escapeText(code)}': [\n      ${messages.join(',\n      ')}\n    ]`;
-    }
-  });
+      if (['A0', 'B0', 'C0', 'D0', 'E0', 'F0'].includes(code)) {
+        if (keyword) mainGridItems.push({ code, label, keyword, thumbnail });
+      }
 
-  function buildDynamicGroupCode(prefix, groupName) {
-    const items = groupMap[prefix];
-    if (items.length === 0) return `[ { type: 'text', text: '本區為【${groupName}】 (選項尚未建置)' } ]`;
-    
-    let chunks = [];
-    for (let i = 0; i < items.length; i += 10) {
-      chunks.push(items.slice(i, i + 10));
-    }
-    
-    let result = `[\n      { type: 'text', text: '請選擇【${groupName}】項目：' },\n`;
-    chunks.forEach((chunk, idx) => {
-      let chunkJson = JSON.stringify(chunk);
-      result += `      carousels.dynamicCarousel(${chunkJson}, BASE_URL)${idx === chunks.length - 1 ? '' : ','}\n`;
+      if (keyword && code !== 'A0' && code.startsWith('A')) groupMap['A'].push({ code, label, keyword, thumbnail });
+      if (keyword && code !== 'B0' && code.startsWith('B')) groupMap['B'].push({ code, label, keyword, thumbnail });
+      if (keyword && code !== 'C0' && code.startsWith('C')) groupMap['C'].push({ code, label, keyword, thumbnail });
+      if (keyword && code !== 'D0' && code.startsWith('D')) groupMap['D'].push({ code, label, keyword, thumbnail });
+      if (keyword && code !== 'E0' && code.startsWith('E')) groupMap['E'].push({ code, label, keyword, thumbnail });
+      if (keyword && code !== 'F0' && code.startsWith('F')) groupMap['F'].push({ code, label, keyword, thumbnail });
+
+      if (['NKW', 'NKW-1', 'NKW-2', 'NKW-3', 'A0', 'B0', 'C0', 'D0', 'E0', 'F0'].includes(code)) return;
+
+      const w1 = row['回應文字1（W1）'];
+      const p1 = row['回應圖片1（P1）'];
+      const w2 = row['回應文字2（W2）'];
+      const p2 = row['回應圖片2（P2）'];
+
+      let msgs = [];
+      if (w1) msgs.push(`{ type: 'text', text: \`${escapeText(w1)}\` }`);
+      if (w2) msgs.push(`{ type: 'text', text: \`${escapeText(w2)}\` }`);
+      if (p1) msgs.push(`{ type: 'image', originalContentUrl: ${buildImageUrlSnippet(p1)}, previewImageUrl: ${buildImageUrlSnippet(p1)} }`);
+      if (p2) msgs.push(`{ type: 'image', originalContentUrl: ${buildImageUrlSnippet(p2)}, previewImageUrl: ${buildImageUrlSnippet(p2)} }`);
+
+      if (msgs.length > 0) {
+        menusMap[code] = `    '${code}': [\n      ${msgs.join(',\n      ')}\n    ]`;
+      }
     });
-    result += `    ]`;
-    return result;
-  }
 
-  const keywordsContent = `// 機器人自動轉換產生的關鍵字對照表
-module.exports.keywordMap = {
-${Object.entries(keywordMap).map(([k, v]) => `  '${escapeText(k)}': '${escapeText(v)}'`).join(',\n')}
-};
-`;
-  fs.writeFileSync('keywords.js', keywordsContent, 'utf-8');
+    // 寫出關鍵字對應表
+    fs.writeFileSync('keywords.js', `module.exports = { keywordMap: ${JSON.stringify(keywordMap, null, 2)} };`, 'utf-8');
 
-  const mainGridJson = JSON.stringify(mainGridItems);
+    // 建立輪播選單 JS
+    function buildCarouselCode(items, title) {
+      if (items.length === 0) return '[]';
+      const columns = items.map(item => `{
+        thumbnailImageUrl: ${buildImageUrlSnippet(item.thumbnail)},
+        title: '${escapeText(item.label)}',
+        text: '請選擇下級業務',
+        actions: [{ type: 'message', label: '查看詳情', text: '${escapeText(item.keyword)}' }]
+      }`);
+      return `[{ type: 'template', altText: '${title}', template: { type: 'carousel', columns: [${columns.join(',')}] } }]`;
+    }
 
-  const menusContent = `// 機器人自動轉換產生的回應對照表
+    const carouselsContent = `module.exports = {
+      A: ${buildCarouselCode(groupMap['A'], '測量業務選單')},
+      B: ${buildCarouselCode(groupMap['B'], '登記業務選單')},
+      C: ${buildCarouselCode(groupMap['C'], '地價業務選單')},
+      D: ${buildCarouselCode(groupMap['D'], '資訊業務選單')},
+      E: ${buildCarouselCode(groupMap['E'], '地用業務選單')},
+      F: ${buildCarouselCode(groupMap['F'], '檔案業務選單')}
+    };`;
+    fs.writeFileSync('carousels.js', carouselsContent, 'utf-8');
+
+    // 建立最終的 menus.js
+    function buildDynamicGroupCode(prefix, title) {
+      return `[
+        { type: 'text', text: '📘 ${title}導覽\n請左右滑動查看子項目，或直接輸入問題由 AI 助理為您解答！' },
+        ...carousels.${prefix}
+      ]`;
+    }
+
+    const menusContent = `
 const carousels = require('./carousels');
-require('dotenv').config();
-const BASE_URL = process.env.BASE_URL || 'https://linebot-xhu.onrender.com';
+const BASE_URL = process.env.BASE_URL || '';
 
-module.exports.getReply = function(code) {
+exports.getReply = (code) => {
   const replies = {
     'NKW': [
-      { type: 'text', text: '您好！\\n有任何地政相關的問題歡迎輸入以下數字取得更多相關資訊，或撥打本所電話03-5903588，將有人員進一步協助您！\\n【 1 】－上班時間\\n【 2 】－聯絡電話\\n【 3 】－地所住址\\n【 4 】－官方網站\\n【 5 】－粉絲專頁\\n【 6 】－其他問題\\n快邀請親朋好友一起加入官方LINE，將會不定時收到最新活動消息唷！' },
-      { type: 'text', text: '新湖地政官方帳號提供線上諮詢服務\\n點選下方圖示可進行簡易的地政諮詢~\\n若您想詢問其他問題，歡迎撥打本所電話03-5903588，將由專人為您解答，謝謝您！' },
-      carousels.dynamicGrid(${mainGridJson}, BASE_URL)
+      { type: 'text', text: '您好！歡迎使用新湖地政 AI 助理。\n您可以點擊下方選單了解業務，或輸入「AI助理」進入智慧問答模式。' },
+      { type: 'template', altText: '主選單', template: {
+          type: 'image_carousel',
+          columns: [${mainGridItems.map(item => `{
+            imageUrl: ${buildImageUrlSnippet(item.thumbnail)},
+            action: { type: 'message', label: '${escapeText(item.label)}', text: '${escapeText(item.keyword)}' }
+          }`).join(',')}]
+      }}
     ],
-    // 以下為動態生成的 6 大業務入口
-    'A0': ${buildDynamicGroupCode('A', '登記業務諮詢')},
-    'B0': ${buildDynamicGroupCode('B', '測量業務諮詢')},
-    'C0': ${buildDynamicGroupCode('C', '地價業務諮詢')},
-    'D0': ${buildDynamicGroupCode('D', '資訊業務諮詢')},
-    'E0': ${buildDynamicGroupCode('E', '地用業務諮詢')},
-    'F0': ${buildDynamicGroupCode('F', '檔案及綜合業務')},
-
-    // --- Excel 動態擷取的子業務資料 ---
-${Object.values(menusMap).join(',\n')}
+    'A0': ${buildDynamicGroupCode('A', '測量業務')},
+    'B0': ${buildDynamicGroupCode('B', '登記業務')},
+    'C0': ${buildDynamicGroupCode('C', '地價業務')},
+    'D0': ${buildDynamicGroupCode('D', '資訊業務')},
+    'E0': ${buildDynamicGroupCode('E', '地用業務')},
+    'F0': ${buildDynamicGroupCode('F', '檔案業務')},
+    ${Object.values(menusMap).join(',\n')}
   };
-
-  return replies[code] || [{ type: 'text', text: '很抱歉，尚未建立此關鍵字的自動回應內容。' }];
+  return replies[code] || [{ type: 'text', text: '抱歉，找不到對應內容。' }];
 };
 `;
-  fs.writeFileSync('menus.js', menusContent, 'utf-8');
+    fs.writeFileSync('menus.js', menusContent, 'utf-8');
 
-  console.log("✅ 三點零終極轉換成功！已經完全跟 Excel 脫鉤硬寫法，現在首頁也會跟著您的 Excel 動態變化！");
-
-  // --- 新增：Vercel 加速模組 (預編譯知識庫) ---
-  console.log("📚 正在預先編譯知識庫以加速 Serverless 回應時間...");
-  const kbDir = path.join(__dirname, 'knowledge');
-  if (fs.existsSync(kbDir)) {
-    const files = fs.readdirSync(kbDir).filter(file => file.endsWith('.docx') || file.endsWith('.txt'));
+    // --- 預編譯知識庫 (MD 優先) ---
+    console.log("📚 正在預先編譯知識庫...");
+    const kbMdDir = path.join(__dirname, 'knowledge_md');
+    const kbDocxDir = path.join(__dirname, 'knowledge');
     let combinedText = "";
-    
-    // 使用 Promise.all 平行處理，極大化轉檔速度
-    const extractPromises = files.map(async (file) => {
-      const filePath = path.join(kbDir, file);
-      try {
-        if (file.endsWith('.docx')) {
-          const result = await mammoth.extractRawText({ path: filePath });
+    let sourceInfo = "";
+
+    if (fs.existsSync(kbMdDir) && fs.readdirSync(kbMdDir).some(f => f.endsWith('.md'))) {
+      const mdFiles = fs.readdirSync(kbMdDir).filter(f => f.endsWith('.md')).sort();
+      mdFiles.forEach(file => {
+        const content = fs.readFileSync(path.join(kbMdDir, file), 'utf-8');
+        combinedText += `\n=== 知識庫主題：${file.replace('.md', '')} ===\n${content}\n`;
+      });
+      sourceInfo = `MD 知識庫 (${mdFiles.length} 個主題檔)`;
+    } else if (fs.existsSync(kbDocxDir)) {
+      const docxFiles = fs.readdirSync(kbDocxDir).filter(f => f.endsWith('.docx'));
+      const extractPromises = docxFiles.map(async (file) => {
+        try {
+          const result = await mammoth.extractRawText({ path: path.join(kbDocxDir, file) });
           return `\n--- 文件：${file} ---\n${result.value}\n`;
-        } else if (file.endsWith('.txt')) {
-          const text = fs.readFileSync(filePath, 'utf-8');
-          return `\n--- 文件：${file} ---\n${text}\n`;
-        }
-      } catch (err) {
-        console.error(`解析失敗 ${file}:`, err.message);
-        return "";
-      }
-    });
-
-    Promise.all(extractPromises).then(results => {
+        } catch (e) { return ""; }
+      });
+      const results = await Promise.all(extractPromises);
       combinedText = results.join('');
-      fs.writeFileSync('compiled_kb.txt', combinedText, 'utf-8');
-      console.log(`✅ 知識庫編譯完成！共整合了 ${files.length} 份文件，準備交付 Vercel！`);
-    }).catch(err => {
-      console.error("知識庫編譯過程發生錯誤:", err);
-    });
-  }
+      sourceInfo = `DOCX 備援 (${docxFiles.length} 份文件)`;
+    }
 
-} catch (err) {
-  console.error("❌ 轉換失敗：", err);
+    if (combinedText) {
+      fs.writeFileSync('compiled_kb.txt', combinedText, 'utf-8');
+      console.log(`✅ 知識庫編譯完成！來源：${sourceInfo}`);
+    }
+
+  } catch (err) {
+    console.error("❌ 轉換失敗：", err);
+    process.exit(1);
+  }
 }
+
+main();
