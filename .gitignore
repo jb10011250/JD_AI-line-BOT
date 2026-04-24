@@ -1,5 +1,18 @@
+# 金鑰與環境設定 (絕對不能上傳)
 .env
+.vercel
+
+# 套件與暫存 (不需上傳，雲端會自動安裝)
 node_modules
 npm-debug.log
-.vercel
+
+# 自動產生的知識庫 (由 build.js 在雲端重新產生)
 compiled_kb.txt
+
+# 內部文件 (機密，僅存本機)
+專案架構說明與使用手冊.md
+知識庫轉換工具計畫書.md
+
+# 意外複製的資料夾 (Windows 手滑複製產生)
+*- 複製/
+* - 複製/
