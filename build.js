@@ -13,7 +13,8 @@ async function main() {
     let keywordMap = {};
     let menusMap = {};
     let groupMap = { 'A': [], 'B': [], 'C': [], 'D': [], 'E': [], 'F': [] };
-    let mainGridItems = [];
+    let gridMap = {}; // 用來存放 A0~F0 的唯一項目
+    const gridCodes = ['A0', 'B0', 'C0', 'D0', 'E0', 'F0'];
     const versionStamp = Date.now();
 
     function escapeText(str) {
@@ -49,23 +50,17 @@ async function main() {
     rows.forEach(row => {
       const code = String(row['代碼'] || '').trim();
       const keyword = String(row['關鍵字（Key）'] || '').trim();
-      const label = String(row['功能說明（顯示文字）'] || '').trim();
+      const label = String(row['功能說明（顯示文字）'] || '').trim().replace('（入口）', '').replace('(入口)', '');
       const rawThumbnail = String(row['選單縮圖'] || '').trim();
       const thumbnail = getBustedThumbnail(rawThumbnail);
 
       if (!code || code.includes('Rich Menu') || code.startsWith('【')) return;
       if (keyword && keyword !== '（非關鍵字觸發）') keywordMap[keyword] = code;
 
-      if (['A0', 'B0', 'C0', 'D0', 'E0', 'F0'].includes(code)) {
-        if (keyword) mainGridItems.push({ code, label, keyword, rawThumbnail });
+      // 抓取六宮格項目 (確保 A0~F0 唯一)
+      if (gridCodes.includes(code) && keyword && !gridMap[code]) {
+        gridMap[code] = { code, label, keyword, rawThumbnail };
       }
-
-      if (keyword && code !== 'A0' && code.startsWith('A')) groupMap['A'].push({ code, label, keyword, thumbnail });
-      if (keyword && code !== 'B0' && code.startsWith('B')) groupMap['B'].push({ code, label, keyword, thumbnail });
-      if (keyword && code !== 'C0' && code.startsWith('C')) groupMap['C'].push({ code, label, keyword, thumbnail });
-      if (keyword && code !== 'D0' && code.startsWith('D')) groupMap['D'].push({ code, label, keyword, thumbnail });
-      if (keyword && code !== 'E0' && code.startsWith('E')) groupMap['E'].push({ code, label, keyword, thumbnail });
-      if (keyword && code !== 'F0' && code.startsWith('F')) groupMap['F'].push({ code, label, keyword, thumbnail });
 
       if (['NKW', 'NKW-1', 'NKW-2', 'NKW-3', 'A0', 'B0', 'C0', 'D0', 'E0', 'F0'].includes(code)) return;
 
@@ -83,6 +78,14 @@ async function main() {
       if (msgs.length > 0) {
         menusMap[code] = `    '${code}': [\n      ${msgs.join(',\n      ')}\n    ]`;
       }
+
+      // 子選單歸類
+      if (keyword && code.startsWith('A') && code !== 'A0') groupMap['A'].push({ code, label, keyword, thumbnail });
+      if (keyword && code.startsWith('B') && code !== 'B0') groupMap['B'].push({ code, label, keyword, thumbnail });
+      if (keyword && code.startsWith('C') && code !== 'C0') groupMap['C'].push({ code, label, keyword, thumbnail });
+      if (keyword && code.startsWith('D') && code !== 'D0') groupMap['D'].push({ code, label, keyword, thumbnail });
+      if (keyword && code.startsWith('E') && code !== 'E0') groupMap['E'].push({ code, label, keyword, thumbnail });
+      if (keyword && code.startsWith('F') && code !== 'F0') groupMap['F'].push({ code, label, keyword, thumbnail });
     });
 
     // 寫出關鍵字對應表
@@ -119,6 +122,9 @@ module.exports = {
       ]`;
     }
 
+    // 組合六宮格
+    const sortedGridItems = gridCodes.map(code => gridMap[code]).filter(Boolean);
+
     const menusContent = `
 const carousels = require('./carousels');
 const BASE_URL = process.env.BASE_URL || '';
@@ -129,7 +135,7 @@ exports.getReply = (code) => {
       { type: 'text', text: '您好！歡迎使用新湖地政 AI 助理。\\n您可以點擊下方選單了解業務，或輸入「AI助理」進入智慧問答模式。' },
       { type: 'template', altText: '主選單', template: {
           type: 'image_carousel',
-          columns: [${mainGridItems.map(item => `{
+          columns: [${sortedGridItems.map(item => `{
             imageUrl: ${buildImageUrlSnippet(item.rawThumbnail)},
             action: { type: 'message', label: '${escapeText(item.label)}', text: '${escapeText(item.keyword)}' }
           }`).join(',')}]
