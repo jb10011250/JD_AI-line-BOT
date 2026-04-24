@@ -113,7 +113,7 @@ async function main() {
     // 建立最終的 menus.js
     function buildDynamicGroupCode(prefix, title) {
       return `[
-        { type: 'text', text: '📘 ${title}導覽\n請左右滑動查看子項目，或直接輸入問題由 AI 助理為您解答！' },
+        { type: 'text', text: '📘 ${title}導覽\\n請左右滑動查看子項目，或直接輸入問題由 AI 助理為您解答！' },
         ...carousels.${prefix}
       ]`;
     }
