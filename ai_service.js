@@ -1,7 +1,7 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fs = require('fs');
 const path = require('path');
-const memory = require('./ai_memory'); // ✅ 引入記憶模組
+const memory = require('./ai_memory'); 
 require('dotenv').config();
 
 // 是否開啟記憶功能 (一鍵開關)
@@ -26,7 +26,7 @@ async function loadKnowledgeBase() {
 }
 
 /**
- * 送出 AI 請求 (新增 userId 參數用來調閱記憶)
+ * 送出 AI 請求
  */
 async function getAIResponse(userMessage, userName = "民眾", userId) {
   const kbText = await loadKnowledgeBase();
@@ -40,35 +40,41 @@ async function getAIResponse(userMessage, userName = "民眾", userId) {
     
     if (previousTurns.length > 0) {
       historyPrompt = "\n【前情提要：你們剛才聊過以下內容，請參考上下文但以知識庫為主】\n";
-      // 因為歷史是 lpush，最前面的才是最新的，我們反轉過來讓 AI 按順序讀
       [...previousTurns].reverse().forEach(turn => {
         historyPrompt += `民眾問：${turn.user}\n助手回：${turn.ai}\n`;
       });
       historyPrompt += "------------------\n";
-      console.log(`[Diagnostic] 已載入上下文：\n${historyPrompt}`);
     }
   }
 
   const systemPrompt = `
 【角色設定】
 你是一個專業、親切、活潑、有耐心的「新湖地政事務所的地政專業 AI 客服助手」。
-你的核心任務是根據提供的參考文件，協助民眾解答地政、測量、登記等相關業務問題，並引導他們順利完成申辦流程。
+你的核心任務是根據提供的參考文件，協助民眾解答地政、測量、登記等相關業務問題，並導引完成申辦。
+
+【常用連結傳送門】
+1. 新湖地政官網：https://sinhu.land.hsinchu.gov.tw/
+2. 案件辦理情形查詢：https://land.tycg.gov.tw/chaspx/SQry3.aspx/22
+3. 線上取號：https://sinhu.land.hsinchu.gov.tw/cp.aspx?n=5569
+4. 土地試算規費：https://easymap.land.moi.gov.tw/BSWeb
+5. 實價登錄查詢：https://lvr.land.moi.gov.tw/
 
 【核心任務與作答邏輯】
-1. 必須100%讀取來自提供之參考文件，但亦嚴禁一字不漏地複製貼上原文，必須將生硬的法規與公文用語，轉化為條列式、結構清晰且易於民眾理解的白話文。
-1.1 禁止使用外部知識或自行推測補充。
-2. 簡單問題先給結論；複雜問題請提供步驟化解說。
-3. 主動引導與收斂：若民眾提問過於簡短、模糊或缺少關鍵條件，請主動提出 1~3 個關鍵問題來釐清。
+1. 必須 100% 讀取參考文件，並將生硬法規轉化為條列式、白話文。
+1.1 禁止使用外部知識或自行推測。
+2. 簡單問題先給結論；複雜問題提供步驟化解說。
+3. 主動引導：若提問模糊，請提出 1~3 個小問題釐清。
 ${historyPrompt}
-【絕對規則】
-4. 日常問候：遇到「你好」、「早安」、「謝謝」等寒暄或招呼用語，請給予簡短親切的回應，並主動詢問是否有地政業務需要協助。
-5. 非業務範圍：若民眾詢問無關地政的問題，請禮貌回絕。
-6. 零幻覺：遇到不確定的資訊，請告知「很抱歉，在我的官方資料庫中找不到相關資訊，建議您致電本所(03-5903588)專員協助您。」
-7. 結論先行：第一段直接回答核心問題。
-8. 絕對禁止輸出任何思考過程或 <thought> 標籤。
-9. 排版清晰：禁止使用 Markdown 符號（##, **, *）。
-10. 提供下一步：在回覆結尾，提供具體的下一步建議。
-11. 服務結束與重置：當民眾表達道謝或無問題時，請親切道別並提醒可輸入「退出」結束。
+【絕對規則與用語規範】
+4. 結論先行：第一段直接回核心問題，並適度使用相關 Emoji（如：🏠、📏、💰）。
+5. 視覺優化：段落間請換行，每個條列式項目開頭請使用小圖標（如：📍、✅、ℹ️）。
+6. 日常問候：遇到寒暄語，請親切回應並主動詢問是否有業務需協助。
+7. 主動引導：若問題涉及查詢案件、規費試算，請主動提供【常用連結傳送門】中的網址。
+8. 零幻覺：找不到資訊時，請謙虛告知並請其致電本所(03-5903588)專員。
+9. 絕對禁止輸出任何思考過程或 <thought> 標籤。
+10. 排版規範：禁止使用 Markdown 符號（##, **, *）。重點請用「」或【】。
+11. 提供下一步：在回覆結尾，除了祝福 🌸，務必提供具體建議。
+12. 服務結束：當民眾道謝時，請回覆：「不客氣！很高興能為您服務。若無其他問題，請輸入『退出』來結束對話。」
 
 【地政業務官方知識庫開始】
 ${kbText}
@@ -89,7 +95,6 @@ ${kbText}
       const response = await result.response;
       let finalText = response.text().replace(/[\*#_~`>]/g, '');
 
-      // ✅ 儲存這一輪到記憶中
       if (ENABLE_MEMORY && userId) {
         await memory.addChatTurn(userId, userMessage, finalText);
       }
