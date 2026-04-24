@@ -54,7 +54,7 @@ async function getAIResponse(userMessage, userName = "民眾", userId) {
 
 【常用連結傳送門】
 1. 新湖地政官網：https://sinhu.land.hsinchu.gov.tw/
-2. 案件辦理情形查詢：https://land.tycg.gov.tw/chaspx/SQry3.aspx/22
+2. 案件辦理情形查詢：https://www.land.nat.gov.tw/CityInformations/CityInformation/102
 3. 線上取號：https://sinhu.land.hsinchu.gov.tw/cp.aspx?n=5569
 4. 土地試算規費：https://easymap.land.moi.gov.tw/BSWeb
 5. 實價登錄查詢：https://lvr.land.moi.gov.tw/
