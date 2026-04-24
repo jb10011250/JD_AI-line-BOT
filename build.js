@@ -50,13 +50,14 @@ async function main() {
       const code = String(row['代碼'] || '').trim();
       const keyword = String(row['關鍵字（Key）'] || '').trim();
       const label = String(row['功能說明（顯示文字）'] || '').trim();
-      const thumbnail = getBustedThumbnail(row['選單縮圖']);
+      const rawThumbnail = String(row['選單縮圖'] || '').trim();
+      const thumbnail = getBustedThumbnail(rawThumbnail);
 
       if (!code || code.includes('Rich Menu') || code.startsWith('【')) return;
       if (keyword && keyword !== '（非關鍵字觸發）') keywordMap[keyword] = code;
 
       if (['A0', 'B0', 'C0', 'D0', 'E0', 'F0'].includes(code)) {
-        if (keyword) mainGridItems.push({ code, label, keyword, thumbnail });
+        if (keyword) mainGridItems.push({ code, label, keyword, rawThumbnail });
       }
 
       if (keyword && code !== 'A0' && code.startsWith('A')) groupMap['A'].push({ code, label, keyword, thumbnail });
@@ -124,11 +125,11 @@ const BASE_URL = process.env.BASE_URL || '';
 exports.getReply = (code) => {
   const replies = {
     'NKW': [
-      { type: 'text', text: '您好！歡迎使用新湖地政 AI 助理。\n您可以點擊下方選單了解業務，或輸入「AI助理」進入智慧問答模式。' },
+      { type: 'text', text: '您好！歡迎使用新湖地政 AI 助理。\\n您可以點擊下方選單了解業務，或輸入「AI助理」進入智慧問答模式。' },
       { type: 'template', altText: '主選單', template: {
           type: 'image_carousel',
           columns: [${mainGridItems.map(item => `{
-            imageUrl: ${buildImageUrlSnippet(item.thumbnail)},
+            imageUrl: ${buildImageUrlSnippet(item.rawThumbnail)},
             action: { type: 'message', label: '${escapeText(item.label)}', text: '${escapeText(item.keyword)}' }
           }`).join(',')}]
       }}
