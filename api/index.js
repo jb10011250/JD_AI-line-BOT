@@ -4,6 +4,7 @@ const path = require('path');
 const { keywordMap } = require('../keywords');
 const { getReply } = require('../menus');
 const aiService = require('../ai_service');
+const memory = require('../ai_memory'); // ✅ 引入記憶模組
 
 const app = express();
 
@@ -15,8 +16,7 @@ const config = {
 const client = new line.Client(config);
 const userStates = {};
 
-// ✅ 智慧快取清除：將 /public/xxx.v123.jpg 轉回 /public/xxx.jpg 讀取實體檔案
-// 這是為了讓 LINE 能強制更新圖片快取，同時 Vercel 仍能找到正確圖檔
+// 智慧快取清除
 app.use('/public', (req, res, next) => {
   if (req.url.match(/\.v\d+\./)) {
     req.url = req.url.replace(/\.v\d+\./, '.');
@@ -24,21 +24,21 @@ app.use('/public', (req, res, next) => {
   next();
 });
 
-// ✅ 提供 public 資料夾內的靜態圖片
+// 公開靜態圖片
 app.use('/public', express.static(path.join(process.cwd(), 'public')));
 
-// 健康檢查頁（讓瀏覽器開啟不報 404）
+// 健康檢查
 app.get('/', (req, res) => {
-  res.send('<h2>新湖地政 AI 助理 (Vercel 閃電版) 運作中！</h2>');
+  res.send('<h2>新湖地政 AI 助理 (記憶增強版) 運作中！</h2>');
 });
 
-// 個人化稱呼處理函式
+// 個人化稱呼
 function personalizeMessages(messages, userName) {
   return messages.map(msg => {
     if (msg.type === 'text') {
-      return {
-        ...msg,
-        text: msg.text.replace(/阿吸|\{Name\}/g, userName)
+      return { 
+        ...msg, 
+        text: msg.text.replace(/阿吸|\{Name\}/g, userName) 
       };
     }
     return msg;
@@ -60,24 +60,25 @@ async function handleEvent(event) {
   try {
     const profile = await client.getProfile(userId);
     userName = profile.displayName;
-  } catch (e) {
-    console.error('無法取得使用者名稱：', e.message);
-  }
+  } catch (e) {}
 
   // --- AI 模式切換邏輯 ---
   const exitKeywords = ['退出', '結束', '離開', '返回', '跳出'];
   if (userStates[userId] === 'AI_MODE' && exitKeywords.some(key => text.includes(key))) {
     userStates[userId] = null;
-    let messages = [{ type: 'text', text: `好的，已幫 ${userName} 離開 AI 諮詢模式。回到主選單囉！` }];
+    await memory.clearHistory(userId); // ✅ 退出時徹底清空雲端記憶
+    
+    let messages = [{ type: 'text', text: `好的，已幫 ${userName} 離開 AI 模式並清空對話紀錄。回到主選單囉！` }];
     messages = messages.concat(getReply('NKW'));
     return client.replyMessage(replyToken, personalizeMessages(messages, userName));
   }
 
   if (text.includes('AI助理') || text.includes('AI 助理') || text.includes('智能助理')) {
     userStates[userId] = 'AI_MODE';
+    await memory.clearHistory(userId); // ✅ 重新進入時也先清空一次，保持新鮮度
     const welcomeMsg = [
-      { type: 'text', text: `您好 ${userName}！我是「新湖地政 AI助理」。` },
-      { type: 'text', text: `我已準備好為您解答地政問題(目前僅測量試用版)。\n\n若要結束，請輸入「退出」。` }
+      { type: 'text', text: `您好 ${userName}！我是「新湖地政 AI 助理」。` },
+      { type: 'text', text: `我已準備好為您解答地政問題。\n\n若要結束，請輸入「退出」。` }
     ];
     return client.replyMessage(replyToken, welcomeMsg);
   }
@@ -85,7 +86,8 @@ async function handleEvent(event) {
   // --- AI 模式處理 ---
   if (userStates[userId] === 'AI_MODE') {
     try {
-      const aiAnswer = await aiService.getAIResponse(text, userName);
+      // ✅ 傳入 userId 以實現多輪對話
+      const aiAnswer = await aiService.getAIResponse(text, userName, userId);
       const reply = personalizeMessages([{ type: 'text', text: aiAnswer }], userName);
       return client.replyMessage(replyToken, reply);
     } catch (err) {
@@ -99,7 +101,7 @@ async function handleEvent(event) {
   return client.replyMessage(replyToken, personalizeMessages(messages, userName));
 }
 
-// Webhook 接收端點
+// Webhook 接收端端
 app.post('/api', line.middleware(config), async (req, res) => {
   try {
     await Promise.all(req.body.events.map(handleEvent));
