@@ -100,7 +100,8 @@ async function main() {
       return `[{ type: 'template', altText: '${title}', template: { type: 'carousel', columns: [${columns.join(',')}] } }]`;
     }
 
-    const carouselsContent = `module.exports = {
+    const carouselsContent = `const BASE_URL = process.env.BASE_URL || '';
+module.exports = {
       A: ${buildCarouselCode(groupMap['A'], '測量業務選單')},
       B: ${buildCarouselCode(groupMap['B'], '登記業務選單')},
       C: ${buildCarouselCode(groupMap['C'], '地價業務選單')},

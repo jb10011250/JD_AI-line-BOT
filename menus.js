@@ -9,22 +9,22 @@ exports.getReply = (code) => {
       { type: 'template', altText: '主選單', template: {
           type: 'image_carousel',
           columns: [{
-            imageUrl: `${BASE_URL}/public/%E7%99%BB%E8%A8%98%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047620319.jpg`,
+            imageUrl: `${BASE_URL}/public/%E7%99%BB%E8%A8%98%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047799277.jpg`,
             action: { type: 'message', label: '登記業務（入口）', text: '登記業務諮詢' }
           },{
-            imageUrl: `${BASE_URL}/public/%E6%B8%AC%E9%87%8F%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047620319.jpg`,
+            imageUrl: `${BASE_URL}/public/%E6%B8%AC%E9%87%8F%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047799277.jpg`,
             action: { type: 'message', label: '測量業務（入口）', text: '測量業務諮詢' }
           },{
-            imageUrl: `${BASE_URL}/public/%E5%9C%B0%E5%83%B9%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047620319.jpg`,
+            imageUrl: `${BASE_URL}/public/%E5%9C%B0%E5%83%B9%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047799277.jpg`,
             action: { type: 'message', label: '地價業務（入口）', text: '地價業務諮詢' }
           },{
-            imageUrl: `${BASE_URL}/public/%E8%B3%87%E8%A8%8A%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047620319.jpg`,
+            imageUrl: `${BASE_URL}/public/%E8%B3%87%E8%A8%8A%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047799277.jpg`,
             action: { type: 'message', label: '資訊業務（入口）', text: '資訊業務諮詢' }
           },{
-            imageUrl: `${BASE_URL}/public/%E5%9C%B0%E7%94%A8%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047620319.jpg`,
+            imageUrl: `${BASE_URL}/public/%E5%9C%B0%E7%94%A8%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047799277.jpg`,
             action: { type: 'message', label: '地用業務（入口）', text: '地用業務諮詢' }
           },{
-            imageUrl: `${BASE_URL}/public/%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E5%85%B6%E4%BB%96%E7%B6%9C%E5%90%88%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047620319.jpg`,
+            imageUrl: `${BASE_URL}/public/%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E5%85%B6%E4%BB%96%E7%B6%9C%E5%90%88%E6%A5%AD%E5%8B%99%E8%AB%AE%E8%A9%A2.v1777047799277.jpg`,
             action: { type: 'message', label: '檔案及其他（入口）', text: '檔案應用其他綜合業務諮詢' }
           }]
       }}
@@ -119,7 +119,7 @@ https://land.tycg.gov.tw/News_Content.aspx?n=4104&s=1467909
 https://land.tycg.gov.tw/News_Content.aspx?n=4103&s=553588
 
 如您尚有其他問題，可撥打本所電話03-5903588，將有專人進一步協助您，謝謝您！` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E8%AC%84%E6%9C%AC%E7%94%B3%E8%AB%8B.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E8%AC%84%E6%9C%AC%E7%94%B3%E8%AB%8B.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E8%AC%84%E6%9C%AC%E7%94%B3%E8%AB%8B.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E8%AC%84%E6%9C%AC%E7%94%B3%E8%AB%8B.v1777047799277.jpg` }
     ],
     'A2': [
       { type: 'text', text: `阿吸，您好！
@@ -151,7 +151,7 @@ https://www.land.tycg.gov.tw/chaspx/SQry3.aspx/22
 https://land.tycg.gov.tw/News_Content.aspx?n=4104&s=1467876
 
 如您尚有其他問題，可撥打本所電話03-5903588，將有專人進一步協助您，謝謝您！` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E8%B7%A8%E6%89%80%E7%99%BB%E8%A8%98.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E8%B7%A8%E6%89%80%E7%99%BB%E8%A8%98.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E8%B7%A8%E6%89%80%E7%99%BB%E8%A8%98.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E8%B7%A8%E6%89%80%E7%99%BB%E8%A8%98.v1777047799277.jpg` }
     ],
     'A6': [
       { type: 'text', text: `阿吸，您好！
@@ -167,7 +167,7 @@ https://maps.app.goo.gl/7bSR8AmJqfMRpubF6
 
 
 如您尚有其他問題，可撥打本所電話03-5903588，將有專人進一步協助您，謝謝您！` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E4%BE%BF%E6%B0%91%E5%B7%A5%E4%BD%9C%E7%AB%99.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E4%BE%BF%E6%B0%91%E5%B7%A5%E4%BD%9C%E7%AB%99.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E4%BE%BF%E6%B0%91%E5%B7%A5%E4%BD%9C%E7%AB%99.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E4%BE%BF%E6%B0%91%E5%B7%A5%E4%BD%9C%E7%AB%99.v1777047799277.jpg` }
     ],
     'A7': [
       { type: 'text', text: `阿吸，您好！
@@ -225,7 +225,7 @@ https://www.asuswebstorage.com/navigate/a/#/s/7C52A6CD72D445FC8C3B5006721D00F06
 https://www.asuswebstorage.com/navigate/a/#/s/A24DBF7C50704DE393B54529609185D26
 
 如查詢不到您想要的資料，可洽本所 03-5903588 協助您~` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E4%B8%80%E8%88%AC%E7%B9%BC%E6%89%BF%E7%A9%BA%E7%99%BD%E8%A1%A8%E5%96%AE%E7%94%B3%E8%AB%8B%E6%9B%B8,%E7%99%BB%E8%A8%98%E6%B8%85%E5%86%8A,%E7%B9%BC%E6%89%BF%E7%B3%BB%E7%B5%B1%E8%A1%A8,%E6%AC%8A%E7%8B%80%E5%88%87%E7%B5%90%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E4%B8%80%E8%88%AC%E7%B9%BC%E6%89%BF%E7%A9%BA%E7%99%BD%E8%A1%A8%E5%96%AE%E7%94%B3%E8%AB%8B%E6%9B%B8,%E7%99%BB%E8%A8%98%E6%B8%85%E5%86%8A,%E7%B9%BC%E6%89%BF%E7%B3%BB%E7%B5%B1%E8%A1%A8,%E6%AC%8A%E7%8B%80%E5%88%87%E7%B5%90%E6%9B%B8.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E4%B8%80%E8%88%AC%E7%B9%BC%E6%89%BF%E7%A9%BA%E7%99%BD%E8%A1%A8%E5%96%AE%E7%94%B3%E8%AB%8B%E6%9B%B8,%E7%99%BB%E8%A8%98%E6%B8%85%E5%86%8A,%E7%B9%BC%E6%89%BF%E7%B3%BB%E7%B5%B1%E8%A1%A8,%E6%AC%8A%E7%8B%80%E5%88%87%E7%B5%90%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E4%B8%80%E8%88%AC%E7%B9%BC%E6%89%BF%E7%A9%BA%E7%99%BD%E8%A1%A8%E5%96%AE%E7%94%B3%E8%AB%8B%E6%9B%B8,%E7%99%BB%E8%A8%98%E6%B8%85%E5%86%8A,%E7%B9%BC%E6%89%BF%E7%B3%BB%E7%B5%B1%E8%A1%A8,%E6%AC%8A%E7%8B%80%E5%88%87%E7%B5%90%E6%9B%B8.v1777047799277.jpg` }
     ],
     'A12': [
       { type: 'text', text: `阿吸您好~ 
@@ -242,8 +242,8 @@ https://www.asuswebstorage.com/navigate/a/#/s/3F903D2B4724453CAA11CC0613E3983D6
 ■ 地籍異動即時通申請須知:
 https://land.tycg.gov.tw/cp.aspx?n=3975
 如查詢不到您想要的資料，可洽本所 03-5903588 協助您~` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E6%96%87%E5%AE%A3.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E6%96%87%E5%AE%A3.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg` },
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E6%96%87%E5%AE%A3.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E6%96%87%E5%AE%A3.v1777047799277.jpg` }
     ],
     'A13': [
       { type: 'text', text: `阿吸您好~
@@ -259,7 +259,7 @@ https://land.tycg.gov.tw/cp.aspx?n=4010
 https://www.asuswebstorage.com/navigate/a/#/s/74FDF4AB29D64E07B8BBE42A3F4E75B26
 
 如查詢不到您想要的資料，可洽本所 03-5903588 協助您~` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E4%BD%8F%E5%9D%80%E9%9A%B1%E5%8C%BF%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E4%BD%8F%E5%9D%80%E9%9A%B1%E5%8C%BF%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E4%BD%8F%E5%9D%80%E9%9A%B1%E5%8C%BF%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E4%BD%8F%E5%9D%80%E9%9A%B1%E5%8C%BF%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg` }
     ],
     'A14': [
       { type: 'text', text: `阿吸，您好！
@@ -279,7 +279,7 @@ https://resim.moi.gov.tw/Home/AgentIndex
 貼心提醒:委託合法地政士，確保不動產交易安全，保障民眾自身之財產權益！
 
 如您尚有其他問題，可撥打本所電話03-5903588，將有專人進一步協助您，謝謝您！` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%9C%B0%E6%94%BF%E5%A3%AB.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%9C%B0%E6%94%BF%E5%A3%AB.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%9C%B0%E6%94%BF%E5%A3%AB.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%9C%B0%E6%94%BF%E5%A3%AB.v1777047799277.jpg` }
     ],
     'A16': [
       { type: 'text', text: `阿吸，您好！
@@ -423,7 +423,7 @@ https://www.asuswebstorage.com/navigate/a/#/s/3F903D2B4724453CAA11CC0613E3983D6
 ■ 地籍異動即時通申請須知:
 https://land.tycg.gov.tw/cp.aspx?n=3975
 如查詢不到您想要的資料，可洽本所 03-5903588 協助您~` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E5%9C%B0%E7%B1%8D%E7%95%B0%E5%8B%95%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg` }
     ],
     'REG-911': [
       { type: 'text', text: `阿吸您好~
@@ -439,7 +439,7 @@ https://land.tycg.gov.tw/cp.aspx?n=4010
 https://www.asuswebstorage.com/navigate/a/#/s/74FDF4AB29D64E07B8BBE42A3F4E75B26
 
 如查詢不到您想要的資料，可洽本所 03-5903588 協助您~` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E4%BD%8F%E5%9D%80%E9%9A%B1%E5%8C%BF%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E4%BD%8F%E5%9D%80%E9%9A%B1%E5%8C%BF%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E4%BD%8F%E5%9D%80%E9%9A%B1%E5%8C%BF%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E4%BD%8F%E5%9D%80%E9%9A%B1%E5%8C%BF%E5%8D%B3%E6%99%82%E9%80%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg` }
     ],
     'REG-912': [
       { type: 'text', text: `阿吸，您好！
@@ -459,7 +459,7 @@ https://www.asuswebstorage.com/navigate/a/#/s/9578C16467DC4329B9BF12B95B74768F6
 https://www.asuswebstorage.com/navigate/a/#/s/981FD14C2794402F904EA435F6D007DC6
 
 如查詢不到您想要的資料，可洽本所 03-5903588 分機413燕先生協助您~` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg` },
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg` },
       { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E4%BB%A3%E7%90%86%E4%BA%BA%E5%A7%94%E4%BB%BB%E6%9B%B8`, previewImageUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E4%BB%A3%E7%90%86%E4%BA%BA%E5%A7%94%E4%BB%BB%E6%9B%B8` }
     ],
     'REG-913': [
@@ -479,7 +479,7 @@ https://www.asuswebstorage.com/navigate/a/#/s/94EEE13CF36646168905E84DC1E90F1B6
 https://www.asuswebstorage.com/navigate/a/#/s/C0E5EAEA43574243AFAA2994D367E0656
 
 如您尚有其他問題，可撥打本所電話03-5903588分機414或419，將有專人進一步協助您，謝謝您！` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg` }
     ],
     'REG-914': [
       { type: 'text', text: `阿吸您好~ 本所LINE+ibon卡厲害~ 為您搜尋到的文件如下： 
@@ -491,7 +491,7 @@ https://www.asuswebstorage.com/navigate/a/#/s/C0E5EAEA43574243AFAA2994D367E0656
 https://www.asuswebstorage.com/navigate/a/#/s/B246250DBB9F4FC7BDBBEDB79C3381196
 
 如查詢不到您想要的資料，可洽本所 03-5903588 分機503呂先生協助您~` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E5%9C%9F%E5%9C%B0%E5%9F%BA%E6%9C%AC%E8%B3%87%E6%96%99%E5%BA%AB%E9%9B%BB%E5%AD%90%E8%B3%87%E6%96%99%E7%94%B3%E8%AB%8B%E8%A1%A8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E5%9C%9F%E5%9C%B0%E5%9F%BA%E6%9C%AC%E8%B3%87%E6%96%99%E5%BA%AB%E9%9B%BB%E5%AD%90%E8%B3%87%E6%96%99%E7%94%B3%E8%AB%8B%E8%A1%A8.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E5%9C%9F%E5%9C%B0%E5%9F%BA%E6%9C%AC%E8%B3%87%E6%96%99%E5%BA%AB%E9%9B%BB%E5%AD%90%E8%B3%87%E6%96%99%E7%94%B3%E8%AB%8B%E8%A1%A8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E5%9C%9F%E5%9C%B0%E5%9F%BA%E6%9C%AC%E8%B3%87%E6%96%99%E5%BA%AB%E9%9B%BB%E5%AD%90%E8%B3%87%E6%96%99%E7%94%B3%E8%AB%8B%E8%A1%A8.v1777047799277.jpg` }
     ],
     'B1': [
       { type: 'text', text: `阿吸，您好！
@@ -505,12 +505,12 @@ https://sinhu.land.hsinchu.gov.tw/News_Content.aspx?n=14066&s=1090601
 3️⃣視需要可下載列印PDF檔，並附於申請書內，以利計收規費，減少規費退補費程序。
 
 🐰有關其他測量規費計費方法請輸入關鍵字「測量費」以獲取更多資訊!!` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E8%A4%87%E4%B8%88%E8%A9%A6%E7%AE%97%E7%B6%B2%E7%AB%99%E4%BB%8B%E7%B4%B9.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E8%A4%87%E4%B8%88%E8%A9%A6%E7%AE%97%E7%B6%B2%E7%AB%99%E4%BB%8B%E7%B4%B9.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E8%A4%87%E4%B8%88%E8%A9%A6%E7%AE%97%E7%B6%B2%E7%AB%99%E4%BB%8B%E7%B4%B9.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E8%A4%87%E4%B8%88%E8%A9%A6%E7%AE%97%E7%B6%B2%E7%AB%99%E4%BB%8B%E7%B4%B9.v1777047799277.jpg` }
     ],
     'B2': [
       { type: 'text', text: `阿吸，您好！
 112年 5月 1日以後申辦土地複丈案件，將由地政事務所提供制式界標予申請人使用，申請人「不用」再自行準備制式界標；但應注意地政事務所僅提供界標予申請人使用，還是要由申請人自行埋設並妥為維護管理，因此現場記得幫我們準備鐵鎚或方便埋設界標的工具，以利複丈作業進行。` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%85%8D%E8%87%AA%E5%82%99%E5%88%B6%E5%BC%8F%E7%95%8C%E6%A8%99%E6%96%87%E5%AE%A3.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%85%8D%E8%87%AA%E5%82%99%E5%88%B6%E5%BC%8F%E7%95%8C%E6%A8%99%E6%96%87%E5%AE%A3.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%85%8D%E8%87%AA%E5%82%99%E5%88%B6%E5%BC%8F%E7%95%8C%E6%A8%99%E6%96%87%E5%AE%A3.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%85%8D%E8%87%AA%E5%82%99%E5%88%B6%E5%BC%8F%E7%95%8C%E6%A8%99%E6%96%87%E5%AE%A3.v1777047799277.jpg` }
     ],
     'B3': [
       { type: 'text', text: `阿吸，您好！
@@ -550,7 +550,7 @@ https://land.hsinchu.gov.tw/valueprice/?mode=queryCasedo_show&parent_id=10309&ty
 https://easymap.land.moi.gov.tw/K01/
 
 🐰提醒於繪製完成後記得匯出中央政府鎖定共通格式電子檔（*zjb)，連同案件送交地政事務所辦理，可省下每建號600元之數值化作業喔!!` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%85%B1%E9%80%9A%E5%BC%8F%E9%9B%BB%E5%AD%90%E6%AA%94%E5%BB%BA%E7%89%A9%E5%90%91%E9%87%8F%E5%9C%96.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%85%B1%E9%80%9A%E5%BC%8F%E9%9B%BB%E5%AD%90%E6%AA%94%E5%BB%BA%E7%89%A9%E5%90%91%E9%87%8F%E5%9C%96.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%85%B1%E9%80%9A%E5%BC%8F%E9%9B%BB%E5%AD%90%E6%AA%94%E5%BB%BA%E7%89%A9%E5%90%91%E9%87%8F%E5%9C%96.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%85%B1%E9%80%9A%E5%BC%8F%E9%9B%BB%E5%AD%90%E6%AA%94%E5%BB%BA%E7%89%A9%E5%90%91%E9%87%8F%E5%9C%96.v1777047799277.jpg` }
     ],
     'B6': [
       { type: 'text', text: `阿吸，您好！
@@ -579,7 +579,7 @@ https://easymap.land.moi.gov.tw/K01/
 
 ⌨️有關建物地籍測繪資料應涵蓋內容應包含「測繪基本資訊」、「測點圖例圖說」、「距離角度數據」、「簽證印鑑或執業圖記」等4項元素，詳情可洽本所官網了解🔍：
 https://sinhu.land.hsinchu.gov.tw/News_Content.aspx?n=14066&s=1090602` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%BB%BA%E7%89%A9%E5%9C%B0%E7%B1%8D%E6%B8%AC%E7%B9%AA%E8%B3%87%E6%96%99.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%BB%BA%E7%89%A9%E5%9C%B0%E7%B1%8D%E6%B8%AC%E7%B9%AA%E8%B3%87%E6%96%99.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E5%BB%BA%E7%89%A9%E5%9C%B0%E7%B1%8D%E6%B8%AC%E7%B9%AA%E8%B3%87%E6%96%99.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E5%BB%BA%E7%89%A9%E5%9C%B0%E7%B1%8D%E6%B8%AC%E7%B9%AA%E8%B3%87%E6%96%99.v1777047799277.jpg` }
     ],
     'B8': [
       { type: 'text', text: `阿吸，您好！
@@ -592,7 +592,7 @@ https://www.land.moi.gov.tw/lawfile/files/20230116151455-u1.pdf
 https://www.land.moi.gov.tw/lawfile/files/20230116151536-u1.pdf
 
 如您尚有其他問題，可撥打本所電話03-5903588分機227，將有專人進一步協助您，謝謝您！` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E6%B8%AC%E9%87%8F%E6%94%B6%E8%B2%BB%E6%A8%99%E6%BA%96.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/%E6%B8%AC%E9%87%8F%E6%94%B6%E8%B2%BB%E6%A8%99%E6%BA%96.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/%E6%B8%AC%E9%87%8F%E6%94%B6%E8%B2%BB%E6%A8%99%E6%BA%96.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/%E6%B8%AC%E9%87%8F%E6%94%B6%E8%B2%BB%E6%A8%99%E6%BA%96.v1777047799277.jpg` }
     ],
     'C1': [
       { type: 'text', text: `阿吸，您好！
@@ -744,7 +744,7 @@ https://www.asuswebstorage.com/navigate/a/#/s/94EEE13CF36646168905E84DC1E90F1B6
 https://www.asuswebstorage.com/navigate/a/#/s/C0E5EAEA43574243AFAA2994D367E0656
 
 如您尚有其他問題，可撥打本所電話03-5903588分機414或419，將有專人進一步協助您，謝謝您！` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg` }
     ],
     'E2': [
       { type: 'text', text: `阿吸，您好！
@@ -808,7 +808,7 @@ https://www.asuswebstorage.com/navigate/a/#/s/94EEE13CF36646168905E84DC1E90F1B6
 https://www.asuswebstorage.com/navigate/a/#/s/C0E5EAEA43574243AFAA2994D367E0656
 
 如您尚有其他問題，可撥打本所電話03-5903588分機414或419，將有專人進一步協助您，謝謝您！` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%9B%B4%E6%AD%A3%E7%B7%A8%E5%AE%9A%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg` }
     ],
     'LAND-14': [
       { type: 'text', text: `阿吸，您好！
@@ -858,8 +858,8 @@ https://sinhu.land.hsinchu.gov.tw/archive_QA.htm` },
       ASUSXSVFN5A4N
 ■　電子檔下載點：
 https://www.asuswebstorage.com/navigate/a/#/s/9578C16467DC4329B9BF12B95B74768F6` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047620319.jpg` },
-      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E4%BB%A3%E7%90%86%E4%BA%BA%E5%A7%94%E4%BB%BB%E6%9B%B8.v1777047620319.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E4%BB%A3%E7%90%86%E4%BA%BA%E5%A7%94%E4%BB%BB%E6%9B%B8.v1777047620319.jpg` }
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E7%94%B3%E8%AB%8B%E6%9B%B8.v1777047799277.jpg` },
+      { type: 'image', originalContentUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E4%BB%A3%E7%90%86%E4%BA%BA%E5%A7%94%E4%BB%BB%E6%9B%B8.v1777047799277.jpg`, previewImageUrl: `${BASE_URL}/public/QR%E6%AA%94%E6%A1%88%E6%87%89%E7%94%A8%E4%BB%A3%E7%90%86%E4%BA%BA%E5%A7%94%E4%BB%BB%E6%9B%B8.v1777047799277.jpg` }
     ],
     'F2': [
       { type: 'text', text: `阿吸，您好！
