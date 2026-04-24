@@ -17,9 +17,9 @@ const MAX_HISTORY = 6;
  */
 async function getChatHistory(userId) {
   try {
+    // @vercel/kv 會自動反序列化，直接回傳物件陣列
     const history = await kv.lrange(`history:${userId}`, 0, -1);
-    // Redis 儲存的是字串陣列，我們回傳轉換後的 JSON
-    return history.map(item => JSON.parse(item));
+    return history;
   } catch (err) {
     console.error('[Memory] 讀取記憶失敗:', err.message);
     return [];
@@ -32,8 +32,8 @@ async function getChatHistory(userId) {
 async function addChatTurn(userId, userMessage, aiResponse) {
   try {
     const key = `history:${userId}`;
-    // 儲存為 JSON 字串
-    const turn = JSON.stringify({ user: userMessage, ai: aiResponse });
+    // @vercel/kv 會自動序列化，直接傳入物件即可
+    const turn = { user: userMessage, ai: aiResponse };
     
     // 插入到列表開頭
     await kv.lpush(key, turn);

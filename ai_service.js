@@ -36,13 +36,16 @@ async function getAIResponse(userMessage, userName = "民眾", userId) {
   let previousTurns = [];
   if (ENABLE_MEMORY && userId) {
     previousTurns = await memory.getChatHistory(userId);
+    console.log(`[Diagnostic] 用戶 ${userId} 的記憶輪數: ${previousTurns.length}`);
+    
     if (previousTurns.length > 0) {
       historyPrompt = "\n【前情提要：你們剛才聊過以下內容，請參考上下文但以知識庫為主】\n";
       // 因為歷史是 lpush，最前面的才是最新的，我們反轉過來讓 AI 按順序讀
-      previousTurns.reverse().forEach(turn => {
+      [...previousTurns].reverse().forEach(turn => {
         historyPrompt += `民眾問：${turn.user}\n助手回：${turn.ai}\n`;
       });
       historyPrompt += "------------------\n";
+      console.log(`[Diagnostic] 已載入上下文：\n${historyPrompt}`);
     }
   }
 
